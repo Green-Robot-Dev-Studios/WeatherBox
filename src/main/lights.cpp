@@ -15,9 +15,9 @@ int sine = 0;
 
 void update_lights() {
   sine++;
-
+//RGB has limit of 255, must adjust range of the sine function to match this (og sine range [-1,1])
   for (int i = 0; i < 60; i++) {
-    leds[i] = CRGB((sin((i * 0.05) + (sine*0.01))+1)*127, 0, 0);
+    leds[i] = CRGB((sin(0, (i * 0.05) + (sine*0.01))+1)*127, 0);
   }
 
   FastLED.show();
