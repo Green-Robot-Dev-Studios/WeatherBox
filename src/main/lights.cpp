@@ -15,11 +15,22 @@ int sine = 0;
 
 void update_lights() {
   sine++;
-
+//RGB has limit of 255, must adjust range of the sine function to match this (og sine range [-1,1])
   for (int i = 0; i < 60; i++) {
-    leds[i] = CRGB((sin((i * 0.05) + (sine*0.01))+1)*127, 0, 0);
+    leds[i] = CRGB((sin((i * 0.05) + (sine*0.01))+1)*127, (i * 0.05) + (sine*0.01))+1)*127, 0);
   }
 
   FastLED.show();
   delay(1);
 }
+
+/*
+ideas:
+- research sunset, sunrise, etc
+- research how to make certain shades with RGB lights
+- decide on brightness (can you adjust brightness) for each "level" of sun brightness
+- what will the lights look light when its partly cloudy, cloudy
+- think of different weather: sunny, partly cloudy, cloudly, raining/stormy 
+- times of day: sunrise/set, nighttime (not all black, then can't see inside box)
+
+*/
