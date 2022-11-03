@@ -23,3 +23,14 @@ void update_lights() {
   FastLED.show();
   delay(1);
 }
+
+/*
+ideas:
+- research sunset, sunrise, etc
+- research how to make certain shades with RGB lights
+- decide on brightness (can you adjust brightness) for each "level" of sun brightness
+- what will the lights look light when its partly cloudy, cloudy
+- think of different weather: sunny, partly cloudy, cloudly, raining/stormy 
+- times of day: sunrise/set, nighttime (not all black, then can't see inside box)
+
+*/
