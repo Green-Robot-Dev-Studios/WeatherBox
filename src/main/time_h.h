@@ -1,7 +1,7 @@
 #ifndef TIME_H
 #define TIME_H
 
-Timezone set_time();
+void set_time();
 int get_angle();
 
 #endif
