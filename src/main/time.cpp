@@ -1,6 +1,6 @@
 // #include <ezTime.h>
 #include <WiFi.h>
-#include "time.h"
+//#include "time.h"
 #include "time_h.h"
 
 const char* ntpServer = "pool.ntp.org";
