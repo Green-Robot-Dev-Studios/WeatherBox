@@ -30,13 +30,14 @@ void loop() {
   delay(5000);
   //Get weather details based on time
   unsigned long currentTime = millis();
-  unsigned long seconds = currentMillis / 1000;
+  unsigned long seconds = currentTime / 1000;
   unsigned long minutes = seconds / 60;
   unsigned long hours = minutes / 60;
-  double temperature = doc["temperature_2m"][hours].as<double>();
-  double percipitation = doc["precipitation"][hours].as<double>();
-  const char* sunrise = doc["sunrise"][0].as<char*>();
-  const char* sunset = doc["sunset"][0].as<char*>();
+  double temperature = doc["hourly"]["temperature_2m"][hours];
+  double percipitation = doc["hourly"]["precipitation"][hours];
+  double wind = doc["hourly"]["windspeed_80m"][hours];
+  const char* sunrise = doc["daily"]["sunrise"][0];
+  const char* sunset = doc["daily"]["sunset"][0];
 
   //Update lights and servo based on weather details
   update_lights();
@@ -46,14 +47,17 @@ void loop() {
 //If demo button is pressed
 void doDemo() {
   for (int i = 0; i < 24; i++) {
-    double temperature = doc["temperature_2m"][i].as<double>();
-    double percipitation = doc["precipitation"][i].as<double>();
-    const char* sunrise = doc["sunrise"][0].as<char*>();
-    const char* sunset = doc["sunset"][0].as<char*>();
+  double temperature = doc["hourly"]["temperature_2m"][i];
+  double percipitation = doc["hourly"]["precipitation"][i];
+  double wind = doc["hourly"]["windspeed_80m"][i];
+    const char* sunrise = doc["daily"]["sunrise"][0];
+    const char* sunset = doc["daily"]["sunset"][0];
     Serial.println(temperature);
     Serial.println(percipitation);
+    Serial.println(wind);
     Serial.println(sunrise);
     Serial.println(sunset);
+    Serial.println();
     update_lights();  // update lights with time of i and percipitation of time i
     update_servo();   // update servos with time of i and percipitation of time i
     delay(2000);      //wait 2 seconds before next hour
