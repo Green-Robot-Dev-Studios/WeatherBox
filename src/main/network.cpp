@@ -1,8 +1,8 @@
 #include "network.h"
 #include "WiFi.h"
 
-const char* ssid = "test";
-const char* password = "password";
+const char* ssid = "RejieLi";
+const char* password = "qjzx2711";
 
 void initialize_connection() {
     WiFi.mode(WIFI_STA);

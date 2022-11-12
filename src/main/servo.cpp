@@ -3,7 +3,7 @@
 
 #define SERVO_PIN 16
 
-Servo myservo;//hi
+Servo myservo;
 
 void setup_servo() {
   myservo.attach(SERVO_PIN);
