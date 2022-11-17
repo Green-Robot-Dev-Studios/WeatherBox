@@ -18,255 +18,239 @@ int sine = 0;
 int red = 255, green = 0, blue = 0, dim = 60;
 
 
-void update_lights() {
-  if (Serial.available()) { // if there is data comming
-    String command = Serial.readStringUntil('\n'); // read string until newline character
+void update_lights(int hour, double percipitation, const char* sunrise, const char* sunset) {
+  if (Serial.available()) {                         // if there is data comming
+    String command = Serial.readStringUntil('\n');  // read string until newline character
 
-    red = command.substring(0,command.indexOf(",")).toInt();
-    command = command.substring(command.indexOf(",")+1,command.length());
-    green = command.substring(0,command.indexOf(",")).toInt();
-    command = command.substring(command.indexOf(",")+1,command.length());
-    blue = command.substring(0,command.indexOf(".")).toInt();
-    command = command.substring(command.indexOf(".")+1,command.length());
-    dim = command.substring(0,command.length()).toInt();
+    red = command.substring(0, command.indexOf(",")).toInt();
+    command = command.substring(command.indexOf(",") + 1, command.length());
+    green = command.substring(0, command.indexOf(",")).toInt();
+    command = command.substring(command.indexOf(",") + 1, command.length());
+    blue = command.substring(0, command.indexOf(".")).toInt();
+    command = command.substring(command.indexOf(".") + 1, command.length());
+    dim = command.substring(0, command.length()).toInt();
   }
 
   sine++;
-//RGB has limit of 255, must adjust range of the sine function to match this (og sine range [-1,1])
-  /*for (int i = 0; i < 60; i++) {
-    if (i%dim == 0){
-    leds[i] = CRGB(red, green, blue);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+  // 0-23 inclusive
+  switch (hour) {
+    case 0:
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }*/
-  switch (5){
+      break;
+
     case 1:
-    for (int i = 0; i < 60; i++) {
-    if (i%10 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 2:
-    for (int i = 0; i < 60; i++) {
-    if (i%10 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 3:
-    for (int i = 0; i < 60; i++) {
-    if (i%6 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 6 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 4:
-    for (int i = 0; i < 60; i++) {
-    if (i%6 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 6 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 5:
-    for (int i = 0; i < 60; i++) {
-    if (i%3 == 0){
-    leds[i] = CRGB(252,29,0);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 3 == 0) {
+          leds[i] = CRGB(252, 29, 0);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 6:
-    for (int i = 0; i < 60; i++) {
-    if (i%3 == 0){
-    leds[i] = CRGB(252,29,0);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 3 == 0) {
+          leds[i] = CRGB(252, 29, 0);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 7:
-    for (int i = 0; i < 60; i++) {
-    if (i%2 == 0){
-    leds[i] = CRGB(252,184,15);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 2 == 0) {
+          leds[i] = CRGB(252, 184, 15);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 8:
-    for (int i = 0; i < 60; i++) {
-    if (i%2 == 0){
-    leds[i] = CRGB(250,203,87);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 2 == 0) {
+          leds[i] = CRGB(250, 203, 87);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 9:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(250,203,87);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(250, 203, 87);
+      }
+      break;
 
     case 10:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(250,203,87);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(250, 203, 87);
+      }
+      break;
 
     case 11:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(250,203,87);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(250, 203, 87);
+      }
+      break;
 
     case 12:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(250,203,87);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(250, 203, 87);
+      }
+      break;
 
     case 13:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(247, 160, 10);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(247, 160, 10);
+      }
+      break;
 
     case 14:
-    for (int i = 0; i < 60; i++) {
-      leds[i] = CRGB(247, 160, 10);
-    }
-    break;
+      for (int i = 0; i < 60; i++) {
+        leds[i] = CRGB(247, 160, 10);
+      }
+      break;
 
     case 15:
-    for (int i = 0; i < 60; i++) {
-    if (i%2 == 0){
-    leds[i] = CRGB(250,203,87);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 2 == 0) {
+          leds[i] = CRGB(250, 203, 87);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 16:
-    for (int i = 0; i < 60; i++) {
-    if (i%2 == 0){
-    leds[i] = CRGB(250,203,87);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 2 == 0) {
+          leds[i] = CRGB(250, 203, 87);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 17:
-    for (int i = 0; i < 60; i++) {
-    if (i%3 == 0){
-    leds[i] = CRGB(250,203,87);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 3 == 0) {
+          leds[i] = CRGB(250, 203, 87);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
-    
+      break;
+
     case 18:
-    for (int i = 0; i < 60; i++) {
-    if (i%3 == 0){
-    leds[i] = CRGB(252,184,15);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 3 == 0) {
+          leds[i] = CRGB(252, 184, 15);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 19:
-    for (int i = 0; i < 60; i++) {
-    if (i%6 == 0){
-    leds[i] = CRGB(252,29,0);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 6 == 0) {
+          leds[i] = CRGB(252, 29, 0);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 20:
-    for (int i = 0; i < 60; i++) {
-    if (i%6 == 0){
-    leds[i] = CRGB(252,29,0);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 6 == 0) {
+          leds[i] = CRGB(252, 29, 0);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 21:
-    for (int i = 0; i < 60; i++) {
-    if (i%10 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 22:
-    for (int i = 0; i < 60; i++) {
-    if (i%10 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
-  }
-    break;
+      break;
 
     case 23:
-    for (int i = 0; i < 60; i++) {
-    if (i%10 == 0){
-    leds[i] = CRGB(6,1,43);
-    }
-    else {
-      leds[i] = CRGB(0,0,0);
+      for (int i = 0; i < 60; i++) {
+        if (i % 10 == 0) {
+          leds[i] = CRGB(6, 1, 43);
+        } else {
+          leds[i] = CRGB(0, 0, 0);
+        }
       }
+      break;
   }
-    break;
-}
   FastLED.show();
-  delay(1);
 }
 
 /*

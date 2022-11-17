@@ -1,22 +1,22 @@
 #include "network.h"
 #include "WiFi.h"
+#include "util.h"
 
-const char* ssid = "RejieLi";
-const char* password = "qjzx2711";
+const char* ssid = "test";
+const char* password = "password";
 
 void initialize_connection() {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
-    Serial.print("Connecting to WiFi ..");
-    while (WiFi.status() != WL_CONNECTED) {
-        Serial.print('.');
-        delay(1000);
-    }
-    Serial.println(WiFi.localIP());
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.print("\nConnecting to WiFi .");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.print("Got IP: ");
+  Serial.println(WiFi.localIP());
 }
 
 int check_connection() {
-    Serial.println(WiFi.status());
-    return WiFi.status() == WL_CONNECTED;
+  return WiFi.status() == WL_CONNECTED;
 }
-

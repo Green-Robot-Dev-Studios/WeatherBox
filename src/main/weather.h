@@ -1,24 +1,12 @@
-// struct tod{
-//   int year;
-//   int month;
-//   int day;
-//   int hour;
-//   int minutes;
-// };
+#ifndef WEATHER_H
+#define WEATHER_H
 
-// struct weather{
-//   char cityName[];
-//   struct tod timestamp;
-//   int temp; //in Celcius
-//   int snow;
-//   char windDireciton[];
-//   int pressure;
-//   int windSpeed;
-//   int clouds;
-//   int solarRadiation;
-//   int precipitation;
-//   int uv;
-//   char description[];
-// };
+void set_weather();
 
-// struct weather createWeather();
+double get_temp(int hour);
+double get_percipitation(int hour);
+double get_wind(int hour);
+const char* get_sunrise();
+const char* get_sunset();
+
+#endif

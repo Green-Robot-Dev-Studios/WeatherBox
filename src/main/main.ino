@@ -3,89 +3,71 @@
 #include "fans.h"
 #include "network.h"
 #include "time_h.h"
-
-#include <HTTPClient.h>
-#include <string>
-#include <ArduinoJson.h>
-
-// //String for storing server response
-String response = "";
-// //JSON document
-DynamicJsonDocument doc(8096 * 5);
+#include "weather.h"
+#include "util.h"
 
 void setup() {
+  // Serial connection
   Serial.begin(115200);
+  // WiFi Connection
   initialize_connection();
   setup_lights();
   setup_servo();
-  if (check_connection()) {  //initilize time and weather
+  // Once WiFi is connected
+  if (check_connection()) {
     set_time();
-    getWeather();
+    set_weather();
   }
+
+  // Demo purposes
   doDemo();
 }
 
 void loop() {
+  // loop() will only run once the demo has completed. Do not write anything here.
+
   //Wait
-  delay(5000);
-  //Get weather details based on time
-  unsigned long currentTime = millis();
-  unsigned long seconds = currentTime / 1000;
-  unsigned long minutes = seconds / 60;
-  unsigned long hours = minutes / 60;
-  double temperature = doc["hourly"]["temperature_2m"][hours];
-  double percipitation = doc["hourly"]["precipitation"][hours];
-  double wind = doc["hourly"]["windspeed_80m"][hours];
-  const char* sunrise = doc["daily"]["sunrise"][0];
-  const char* sunset = doc["daily"]["sunset"][0];
+  delay(10000);
+
+  int hour = get_hour();
+  double temperature = get_temp(hour);
+  double percipitation = get_percipitation(hour);
+  double wind = get_wind(hour);
+  const char* sunrise = get_sunrise();
+  const char* sunset = get_sunset();
+
+  serial_printf("--- Updating display with hour %d ---", hour);
+  serial_printf("-> Temperature: %lf", temperature);
+  serial_printf("-> Percipitation: %lf", percipitation);
+  serial_printf("-> Wind: %lf", wind);
+  serial_printf("-> Sunrise: %s", sunrise);
+  serial_printf("-> Sunset: %s", sunset);
 
   //Update lights and servo based on weather details
-  update_lights();
-  update_servo();
+  update_lights(hour, percipitation, sunrise, sunset);
+  update_servo(hour);
+  serial_printf("--- Done updating ---");
 }
 
-//If demo button is pressed
 void doDemo() {
   for (int i = 0; i < 24; i++) {
-  double temperature = doc["hourly"]["temperature_2m"][i];
-  double percipitation = doc["hourly"]["precipitation"][i];
-  double wind = doc["hourly"]["windspeed_80m"][i];
-    const char* sunrise = doc["daily"]["sunrise"][0];
-    const char* sunset = doc["daily"]["sunset"][0];
-    Serial.println(temperature);
-    Serial.println(percipitation);
-    Serial.println(wind);
-    Serial.println(sunrise);
-    Serial.println(sunset);
+    double temperature = get_temp(i);
+    double percipitation = get_percipitation(i);
+    double wind = get_wind(i);
+    const char* sunrise = get_sunrise();
+    const char* sunset = get_sunset();
+    serial_printf("--- Timelapsing to %d hours ---", i);
+    serial_printf("-> Temperature: %lf", temperature);
+    serial_printf("-> Percipitation: %lf", percipitation);
+    serial_printf("-> Wind: %lf", wind);
+    serial_printf("-> Sunrise: %s", sunrise);
+    serial_printf("-> Sunset: %s", sunset);
+
+    update_lights(i, 10.0, "", ""); // Update lights with time of i and percipitation of time i
+    update_servo(i); // Update servos with time of i and percipitation of time i
+    serial_printf("--- Done updating ---");
     Serial.println();
-    update_lights();  // update lights with time of i and percipitation of time i
-    update_servo();   // update servos with time of i and percipitation of time i
-    delay(2000);      //wait 2 seconds before next hour
-  }
-}
 
-
-void getWeather() {
-  //Initiate HTTP client
-  HTTPClient http;
-  //The API URL
-  String request = "https://api.open-meteo.com/v1/forecast?latitude=43.4643&longitude=-80.5204&hourly=temperature_2m,precipitation,windspeed_80m&daily=sunrise,sunset&timezone=America%2FNew_York";
-  //Start the request
-  http.begin(request);
-  //Use HTTP GET request
-  http.GET();
-  //Response from server
-  response = http.getString();
-  //Parse JSON, read error if any
-  DeserializationError error = deserializeJson(doc, response);
-  if (error) {
-    Serial.print(F("deserializeJson() failed: "));
-    Serial.println(error.f_str());
-    return;
+    delay(2000); // Wait 2 seconds before next hour
   }
-  //Print parsed value on Serial Monitor
-  // Serial.println(doc["elevation"].as<char*>());
-  // serializeJsonPretty(doc, Serial);
-  //Close connection
-  http.end();
 }

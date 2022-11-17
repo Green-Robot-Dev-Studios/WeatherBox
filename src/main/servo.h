@@ -2,6 +2,6 @@
 #define SERVO_H
 
 void setup_servo();
-void update_servo();
+void update_servo(int hour);
 
 #endif
