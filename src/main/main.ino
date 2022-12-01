@@ -8,7 +8,7 @@
 
 void setup() {
   // Serial connection
-  Serial.begin(115200);
+  Serial.begin(9600);
   // WiFi Connection
   initialize_connection();
   setup_lights();
